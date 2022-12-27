@@ -24,7 +24,7 @@ namespace RTShader
  *  @{
  */
 
-class CookTorranceLighting : public SubRenderState
+class _OgreRTSSExport CookTorranceLighting : public SubRenderState
 {
 public:
     CookTorranceLighting();

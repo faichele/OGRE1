@@ -33,6 +33,7 @@ THE SOFTWARE.
 
 #include "OgreRenderSystem.h"
 #include "OgreVulkanProgram.h"
+#include "OgreVulkanGLSLProgram.h"
 
 #include "OgreVulkanRenderPassDescriptor.h"
 
@@ -57,6 +58,7 @@ namespace Ogre
         unsigned char *mSwIndirectBufferPtr;
 
         VulkanProgramFactory *mSPIRVProgramFactory;
+        VulkanGLSLProgramFactory *mGLSLProgramFactory;
 
         VkInstance mVkInstance;
 

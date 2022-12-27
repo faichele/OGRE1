@@ -11,6 +11,8 @@
 # Find all necessary and optional OGRE dependencies
 #######################################################################
 
+include(FetchContent)
+
 # OGRE_DEPENDENCIES_DIR can be used to specify a single base
 # folder where the required dependencies may be found.
 set(OGRE_DEPENDENCIES_DIR "${PROJECT_BINARY_DIR}/Dependencies" CACHE PATH "Path to prebuilt OGRE dependencies")
@@ -81,6 +83,24 @@ if(OGRE_BUILD_DEPENDENCIES AND NOT EXISTS ${OGREDEPS_PATH})
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/pugixml-1.12)
     execute_process(COMMAND ${CMAKE_COMMAND}
         --build ${PROJECT_BINARY_DIR}/pugixml-1.12 ${BUILD_COMMAND_OPTS})
+
+    message(STATUS "Building glslang")
+#    FetchContent_Declare(glslang
+#      GIT_REPOSITORY    git@github.com:KhronosGroup/glslang.git
+#      GIT_TAG           master
+#    )
+
+    file(DOWNLOAD
+        https://github.com/KhronosGroup/glslang/archive/refs/tags/master-tot.tar.gz
+        ${PROJECT_BINARY_DIR}/master-tot.tar.gz)
+    execute_process(COMMAND ${CMAKE_COMMAND}
+        -E tar xf master-tot.tar.gz WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+    execute_process(COMMAND ${BUILD_COMMAND_COMMON}
+	-DCMAKE_POSITION_INDEPENDENT_CODE=TRUE -DBUILD_SHARED_LIBS=TRUE# this will be linked into a shared lib
+        ${PROJECT_BINARY_DIR}/glslang-master-tot
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/glslang-master-tot)
+    execute_process(COMMAND ${CMAKE_COMMAND}
+        --build ${PROJECT_BINARY_DIR}/glslang-master-tot ${BUILD_COMMAND_OPTS})
 
     #find_package(Freetype)
     if (NOT FREETYPE_FOUND)
@@ -249,8 +269,16 @@ if (NOT (APPLE_IOS OR WINDOWS_STORE OR WINDOWS_PHONE OR ANDROID OR EMSCRIPTEN))
   macro_log_feature(Cg_FOUND "cg" "C for graphics shader language" "http://developer.nvidia.com/object/cg_toolkit.html")
 endif ()
 
+# Find glslang
+find_package(glslang)
+message(STATUS "glslang_FOUND: ${glslang_FOUND} -- glslang_INCLUDE_DIRS: ${glslang_INCLUDE_DIRS} -- glslang_LIBRARIES: ${glslang_LIBRARIES}")
+macro_log_feature(glslang_FOUND "glslang" "glslang framework" "https://github.com/KhronosGroup/glslang")
+
 # Find Vulkan SDK
-macro_log_feature(ENV{VULKAN_SDK} "Vulkan SDK" "Vulkan RenderSystem, glslang Plugin. Alternatively use system packages" "https://vulkan.lunarg.com/")
+find_package(Vulkan)
+message(STATUS "Vulkan_FOUND: ${Vulkan_FOUND} -- Vulkan_INCLUDE_DIRS: ${Vulkan_INCLUDE_DIRS} -- Vulkan_LIBRARIES: ${Vulkan_LIBRARIES}")
+# macro_log_feature(ENV{VULKAN_SDK} "Vulkan SDK" "Vulkan RenderSystem, glslang Plugin. Alternatively use system packages" "https://vulkan.lunarg.com/")
+macro_log_feature(Vulkan_FOUND "Vulkan SDK" "Vulkan RenderSystem, glslang Plugin. Alternatively use system packages" "https://vulkan.lunarg.com/")
 
 # OpenEXR
 find_package(OpenEXR)

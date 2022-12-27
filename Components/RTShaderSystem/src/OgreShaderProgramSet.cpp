@@ -59,9 +59,19 @@ Program* ProgramSet::getCpuProgram(GpuProgramType type) const
     switch(type)
     {
     case GPT_VERTEX_PROGRAM:
-        return mVSCpuProgram.get();
+    {
+        if (mVSCpuProgram)
+            return mVSCpuProgram.get();
+        else
+            return nullptr;
+    }
     case GPT_FRAGMENT_PROGRAM:
-        return mPSCpuProgram.get();
+    {
+        if (mPSCpuProgram)
+            return mPSCpuProgram.get();
+        else
+            return nullptr;
+    }
     default:
         return NULL;
     }
@@ -69,17 +79,20 @@ Program* ProgramSet::getCpuProgram(GpuProgramType type) const
 //-----------------------------------------------------------------------------
 void ProgramSet::setGpuProgram(const GpuProgramPtr& program)
 {
-    switch(program->getType())
+    if (program)
     {
-    case GPT_VERTEX_PROGRAM:
-        mVSGpuProgram = program;
-        break;
-    case GPT_FRAGMENT_PROGRAM:
-        mPSGpuProgram = program;
-        break;
-    default:
-        OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
-        break;
+        switch(program->getType())
+        {
+        case GPT_VERTEX_PROGRAM:
+            mVSGpuProgram = program;
+            break;
+        case GPT_FRAGMENT_PROGRAM:
+            mPSGpuProgram = program;
+            break;
+        default:
+            OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
+            break;
+        }
     }
 }
 

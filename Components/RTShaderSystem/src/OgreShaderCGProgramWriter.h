@@ -50,7 +50,7 @@ namespace RTShader {
 /** CG target language writer implementation.
 @see ProgramWriter.
 */
-class CGProgramWriter : public ProgramWriter
+class _OgreRTSSExport CGProgramWriter : public ProgramWriter
 {
 
 // Interface.

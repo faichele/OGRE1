@@ -110,9 +110,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceManager::addImpl( ResourcePtr& res )
     {
-            OGRE_LOCK_AUTO_MUTEX;
+        OGRE_LOCK_AUTO_MUTEX;
 
-            std::pair<ResourceMap::iterator, bool> result;
+        std::pair<ResourceMap::iterator, bool> result;
         if(ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(res->getGroup()))
         {
             result = mResources.emplace(res->getName(), res);
@@ -149,17 +149,27 @@ namespace Ogre {
 
         if (!result.second)
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the name " + res->getName() +
-                " already exists.", "ResourceManager::add");
+            /*OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the name " + res->getName() +
+                " already exists.", "ResourceManager::add");*/
+
+            Ogre::LogManager::getSingleton().logWarning(getResourceType()+" with the name " + res->getName() +
+                                                        " already exists. Replacing existing entry.");
+
+            mResources[res->getName()] = res;
         }
 
         // Insert the handle
         std::pair<ResourceHandleMap::iterator, bool> resultHandle = mResourcesByHandle.emplace(res->getHandle(), res);
         if (!resultHandle.second)
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the handle " +
+            /*OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the handle " +
                 StringConverter::toString((long) (res->getHandle())) +
-                " already exists.", "ResourceManager::add");
+                " already exists.", "ResourceManager::add");*/
+            Ogre::LogManager::getSingleton().logWarning(getResourceType()+" with the handle " +
+                                                        StringConverter::toString((long) (res->getHandle())) +
+                                                        " already exists. Replacing existing entry.");
+
+            mResourcesByHandle[res->getHandle()] = res;
         }
     }
     //-----------------------------------------------------------------------

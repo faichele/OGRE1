@@ -46,7 +46,7 @@ namespace RTShader {
 @see http://msdn.microsoft.com/en-us/library/bb173398.aspx
 Derives from SubRenderState class.
 */
-class FFPFog : public SubRenderState
+class _OgreRTSSExport FFPFog : public SubRenderState
 {
 public:
 
@@ -146,7 +146,7 @@ protected:
 A factory that enables creation of FFPFog instances.
 @remarks Sub class of SubRenderStateFactory
 */
-class FFPFogFactory : public SubRenderStateFactory
+class _OgreRTSSExport FFPFogFactory : public SubRenderStateFactory
 {
 public:
 

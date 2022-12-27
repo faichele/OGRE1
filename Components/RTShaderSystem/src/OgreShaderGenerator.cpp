@@ -1279,6 +1279,8 @@ size_t ShaderGenerator::getShaderCount(GpuProgramType type) const
 //-----------------------------------------------------------------------------
 void ShaderGenerator::setTargetLanguage(const String& shaderLanguage)
 {
+    Ogre::LogManager::getSingleton().logWarning("ShaderGenerator::setTargetLanguage(\"" + shaderLanguage + "\")");
+
     // Make sure that the shader language is supported.
     if (!mProgramWriterManager->isLanguageSupported(shaderLanguage))
     {

@@ -36,7 +36,11 @@ THE SOFTWARE.
 #include "OgreVulkanRenderPassDescriptor.h"
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"
+
+#include "OgreVulkanGLSLToSpirvHelper.h"
 #include "OgreVulkanProgram.h"
+#include "OgreVulkanGLSLProgram.h"
+
 #include "OgreVulkanRenderPassDescriptor.h"
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreVulkanUtils.h"
@@ -272,6 +276,9 @@ namespace Ogre
         if( !mDevice )
             return;
 
+        Ogre::LogManager::getSingleton().logMessage("Calling OgreVulkanGLSLToSpirvHelper::Finalize()");
+        OgreVulkanGLSLToSpirvHelper::Finalize();
+
         mDevice->stall();
 #if 0
         {
@@ -307,6 +314,9 @@ namespace Ogre
 
         OGRE_DELETE mSPIRVProgramFactory;
         mSPIRVProgramFactory = 0;
+
+        OGRE_DELETE mGLSLProgramFactory;
+        mGLSLProgramFactory = 0;
 
         vkDestroyPipelineLayout(mDevice->mDevice, mLayout, 0);
         vkDestroyDescriptorSetLayout(mDevice->mDevice, mDescriptorSetLayout, 0);
@@ -728,6 +738,10 @@ namespace Ogre
 
         if(mHasValidationLayers)
             addInstanceDebugCallback();
+
+        Ogre::LogManager::getSingleton().logMessage("Calling OgreVulkanGLSLToSpirvHelper::Init()");
+        OgreVulkanGLSLToSpirvHelper::Init();
+
     }
     //-------------------------------------------------------------------------
     RenderWindow *VulkanRenderSystem::_createRenderWindow( const String &name, uint32 width, uint32 height,
@@ -1186,6 +1200,9 @@ namespace Ogre
     {
         mSPIRVProgramFactory = OGRE_NEW VulkanProgramFactory( mActiveDevice );
         GpuProgramManager::getSingleton().addFactory( mSPIRVProgramFactory );
+
+        mGLSLProgramFactory = OGRE_NEW VulkanGLSLProgramFactory( mActiveDevice );
+        // GpuProgramManager::getSingleton().addFactory( mGLSLProgramFactory );
     }
     //-------------------------------------------------------------------------
     void VulkanRenderSystem::executeRenderPassDescriptorDelayedActions( bool officialCall )

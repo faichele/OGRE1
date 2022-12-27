@@ -46,7 +46,7 @@ namespace RTShader {
 This class builds RenderState from a given pass that represents the fixed function pipeline
 that the source pass describes.
 */
-class FFPRenderStateBuilder
+class _OgreRTSSExport FFPRenderStateBuilder
 {
 // Interface.
 public:

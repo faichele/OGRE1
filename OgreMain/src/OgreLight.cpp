@@ -32,7 +32,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Light::Light()
         :
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
           mPosition(Vector3::ZERO),
           mDirection(Vector3::NEGATIVE_UNIT_Z),
           mDerivedPosition(Vector3::ZERO),
@@ -40,7 +40,7 @@ namespace Ogre {
           mDerivedCamRelativePosition(Vector3::ZERO),
           mDerivedCamRelativeDirty(false),
           mDerivedTransformDirty(false),
-#endif
+//#endif
           mDiffuse(ColourValue::White),
           mSpecular(ColourValue::Black),
           mSpotOuter(Degree(40.0f)),
@@ -63,14 +63,14 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     Light::Light(const String& name) : MovableObject(name),
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         mPosition(Vector3::ZERO),
         mDirection(Vector3::NEGATIVE_UNIT_Z),
         mDerivedPosition(Vector3::ZERO),
         mDerivedDirection(Vector3::NEGATIVE_UNIT_Z),
         mDerivedCamRelativeDirty(false),
         mDerivedTransformDirty(false),
-#endif
+//#endif
         mDiffuse(ColourValue::White),
         mSpecular(ColourValue::Black),
         mSpotOuter(Degree(40.0f)),
@@ -105,7 +105,7 @@ namespace Ogre {
     {
         return mLightType;
     }
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
     //-----------------------------------------------------------------------
     void Light::setPosition(Real x, Real y, Real z)
     {
@@ -144,7 +144,7 @@ namespace Ogre {
     {
         return mDirection;
     }
-#endif
+//#endif
     //-----------------------------------------------------------------------
     void Light::setSpotlightRange(const Radian& innerAngle, const Radian& outerAngle, Real falloff)
     {
@@ -226,7 +226,7 @@ namespace Ogre {
     {
         return mPowerScale;
     }
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
     //-----------------------------------------------------------------------
     void Light::update(void) const
     {
@@ -268,7 +268,7 @@ namespace Ogre {
 
         MovableObject::_notifyMoved();
     }
-#endif
+//#endif
     //-----------------------------------------------------------------------
     const AxisAlignedBox& Light::getBoundingBox(void) const
     {
@@ -287,7 +287,7 @@ namespace Ogre {
     {
         return LightFactory::FACTORY_TYPE_NAME;
     }
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
     //-----------------------------------------------------------------------
     const Vector3& Light::getDerivedPosition(bool cameraRelative) const
     {
@@ -307,7 +307,7 @@ namespace Ogre {
         update();
         return mDerivedDirection;
     }
-#endif
+//#endif
     //-----------------------------------------------------------------------
     Vector4 Light::getAs4DVector(bool cameraRelativeIfSet) const
     {
@@ -751,9 +751,9 @@ namespace Ogre {
     void Light::_setCameraRelative(Camera* cam)
     {
         mCameraToBeRelativeTo = cam;
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         mDerivedCamRelativeDirty = true;
-#endif
+//#endif
     }
     //---------------------------------------------------------------------
     Real Light::_deriveShadowNearClipDistance(const Camera* maincam) const

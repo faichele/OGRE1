@@ -17,7 +17,18 @@ elseif(WIN32)
     target_link_directories(Plugin_GLSLangProgramManager PRIVATE $ENV{VULKAN_SDK}/lib)
     target_link_libraries(Plugin_GLSLangProgramManager PUBLIC OgreMain shaderc_combined)
 else()
-    target_link_libraries(Plugin_GLSLangProgramManager PUBLIC OgreMain glslang HLSL OSDependent OGLCompiler SPIRV SPIRV-Tools SPIRV-Tools-opt)
+    target_include_directories(Plugin_GLSLangProgramManager PRIVATE
+        ${CMAKE_BINARY_DIR}/Dependencies/include
+        ${CMAKE_BINARY_DIR}/Dependencies/include/glslang
+        ${CMAKE_BINARY_DIR}/Dependencies/include/glslang/Include
+    )
+    target_link_libraries(Plugin_GLSLangProgramManager PUBLIC
+        OgreMain
+        ${CMAKE_BINARY_DIR}/Dependencies/lib/libglslang.so
+        ${CMAKE_BINARY_DIR}/Dependencies/lib/libSPIRV.so
+        ${CMAKE_BINARY_DIR}/Dependencies/lib/libHLSL.so
+        ${CMAKE_BINARY_DIR}/glslang-master-tot/glslang/OSDependent/Unix/libOSDependent.a
+        ${CMAKE_BINARY_DIR}/glslang-master-tot/OGLCompilersDLL/libOGLCompiler.a) #
 endif()
 
 ogre_config_framework(Plugin_GLSLangProgramManager)

@@ -47,7 +47,7 @@ namespace RTShader {
 /** Normal Map Lighting extension sub render state implementation.
 Derives from SubRenderState class.
 */
-class NormalMapLighting : public SubRenderState
+class _OgreRTSSExport NormalMapLighting : public SubRenderState
 {
 
 // Interface.
@@ -106,6 +106,7 @@ public:
     Return the normal map texture name.
     */
     const String& getNormalMapTextureName() const { return mNormalMapTextureName; }
+    void setNormalMapTextureName(const String& name) { mNormalMapTextureName = name; }
 
     bool setParameter(const String& name, const String& value) override;
 
@@ -132,7 +133,7 @@ protected:
 A factory that enables creation of NormalMapLighting instances.
 @remarks Sub class of SubRenderStateFactory
 */
-class NormalMapLightingFactory : public SubRenderStateFactory
+class _OgreRTSSExport NormalMapLightingFactory : public SubRenderStateFactory
 {
 public:
 

@@ -24,7 +24,7 @@ namespace RTShader
 
 /** Transform sub render state implementation of writing to WBOIT buffers
  */
-class WBOIT : public SubRenderState
+class _OgreRTSSExport WBOIT : public SubRenderState
 {
 public:
     const String& getType() const override;
@@ -40,7 +40,7 @@ public:
 A factory that enables creation of GBuffer instances.
 @remarks Sub class of SubRenderStateFactory
 */
-class WBOITFactory : public SubRenderStateFactory
+class _OgreRTSSExport WBOITFactory : public SubRenderStateFactory
 {
 public:
     const String& getType() const override;

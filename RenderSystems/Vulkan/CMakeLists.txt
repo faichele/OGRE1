@@ -27,9 +27,14 @@ elseif(ANDROID)
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/volk.c"
         PROPERTIES COMPILE_DEFINITIONS VK_USE_PLATFORM_ANDROID_KHR)
 else()
+    target_include_directories(RenderSystem_Vulkan PRIVATE
+        ${CMAKE_BINARY_DIR}/Dependencies/include
+        ${CMAKE_BINARY_DIR}/Dependencies/include/glslang
+        ${CMAKE_BINARY_DIR}/Dependencies/include/glslang/Include
+    )
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/volk.c"
         PROPERTIES COMPILE_DEFINITIONS VK_USE_PLATFORM_XLIB_KHR)
-    target_link_libraries(RenderSystem_Vulkan PRIVATE ${X11_LIBRARIES})
+    target_link_libraries(RenderSystem_Vulkan PRIVATE ${X11_LIBRARIES} ${CMAKE_BINARY_DIR}/Dependencies/lib/libglslang.so)
 endif()
 
 target_link_libraries(RenderSystem_Vulkan PUBLIC OgreMain PRIVATE ${CMAKE_DL_LIBS})

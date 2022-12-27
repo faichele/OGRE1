@@ -50,7 +50,7 @@ namespace RTShader {
 /** GLSL ES target language writer implementation.
 @see ProgramWriter.
 */
-class GLSLESProgramWriter : public GLSLProgramWriter
+class _OgreRTSSExport GLSLESProgramWriter : public GLSLProgramWriter
 {
     // Interface.
 public:

@@ -44,7 +44,7 @@ namespace Ogre {
 /** HLSL target language writer implementation.
 @see ProgramWriter.
 */
-class HLSLProgramWriter : public CGProgramWriter
+class _OgreRTSSExport HLSLProgramWriter : public CGProgramWriter
 {
     bool mIsShaderModel4;
     // Interface.

@@ -16,6 +16,8 @@
 
 cmake_minimum_required(VERSION 3.10.0)
 
+set(CMAKE_VERBOSE_MAKEFILE On)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -314,7 +316,7 @@ cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_GL3PLUS "Build OpenGL 3+ RenderSy
 cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_GL "Build OpenGL RenderSystem" TRUE "OPENGL_FOUND;NOT APPLE_IOS;NOT WINDOWS_STORE;NOT WINDOWS_PHONE" FALSE)
 cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_GLES2 "Build OpenGL ES 2.x RenderSystem" TRUE "OPENGLES2_FOUND;NOT WINDOWS_STORE;NOT WINDOWS_PHONE" FALSE)
 cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_METAL "Build Metal RenderSystem" FALSE "APPLE" FALSE)
-option(OGRE_BUILD_RENDERSYSTEM_VULKAN "Build Vulkan RenderSystem" FALSE)
+option(OGRE_BUILD_RENDERSYSTEM_VULKAN "Build Vulkan RenderSystem" TRUE)
 cmake_dependent_option(OGRE_BUILD_PLUGIN_ASSIMP "Build Open Asset Import plugin" TRUE "assimp_FOUND" FALSE)
 cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_TINY "Build Tiny RenderSystem (software-rendering)" FALSE "NOT ANDROID" FALSE)
 option(OGRE_BUILD_PLUGIN_BSP "Build BSP SceneManager plugin" TRUE)

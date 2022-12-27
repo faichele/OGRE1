@@ -377,6 +377,7 @@ namespace Ogre {
         //   stored, or if there has been a problem
         ConfigFile cfg;
 
+        LogManager::getSingleton().logMessage("*-*-* Loading config file: " + mConfigFileName);
         try {
             // Don't trim whitespace
             cfg.load(mConfigFileName, "\t:=", false);

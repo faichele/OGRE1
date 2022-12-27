@@ -12,7 +12,7 @@
 # Add platform specific settings
 
 if(EGL_FOUND)
-  cmake_dependent_option(OGRE_GLSUPPORT_USE_EGL "use EGL for GL Context Creation instead of GLX/ WGL" TRUE "NOT WIN32" FALSE)
+	cmake_dependent_option(OGRE_GLSUPPORT_USE_EGL "use EGL for GL Context Creation instead of GLX/ WGL" FALSE "NOT WIN32" FALSE)
 endif()
 
 if(ANDROID)
@@ -63,15 +63,15 @@ elseif (APPLE)
     ${PROJECT_SOURCE_DIR}/OgreMain/include/OSX)
   set(PLATFORM_LIBS "-framework AppKit" ${OPENGL_gl_LIBRARY})
 elseif (UNIX)
-  if(OGRE_GLSUPPORT_USE_EGL)
-    file(GLOB PLATFORM_HEADERS "include/EGL/X11/*.h" "include/EGL/*.h")
-    file(GLOB PLATFORM_SOURCES "src/EGL/X11/*.cpp" "src/EGL/*.cpp" "src/X11/*.cpp")
-    
-    set(NATIVE_INCLUDES
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/EGL
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/EGL/X11)
-    set(PLATFORM_LIBS ${X11_LIBRARIES} ${X11_Xrandr_LIB} ${EGL_LIBRARIES})
-  else()
+  #if(OGRE_GLSUPPORT_USE_EGL)
+  #  file(GLOB PLATFORM_HEADERS "include/EGL/X11/*.h" "include/EGL/*.h")
+  #  file(GLOB PLATFORM_SOURCES "src/EGL/X11/*.cpp" "src/EGL/*.cpp" "src/X11/*.cpp")
+  #  
+  #  set(NATIVE_INCLUDES
+  #      ${CMAKE_CURRENT_SOURCE_DIR}/include/EGL
+  #      ${CMAKE_CURRENT_SOURCE_DIR}/include/EGL/X11)
+  #  set(#PLATFORM_LIBS ${X11_LIBRARIES} ${X11_Xrandr_LIB} ${EGL_LIBRARIES})
+  #else()
     file(GLOB PLATFORM_HEADERS "include/GLX/*.h")
     file(GLOB PLATFORM_SOURCES "src/GLX/*.cpp" "src/X11/*.cpp")
 
@@ -80,7 +80,7 @@ elseif (UNIX)
         ${OPENGL_INCLUDE_DIR})
     
     set(PLATFORM_LIBS ${X11_LIBRARIES} ${X11_Xrandr_LIB} ${OPENGL_glx_LIBRARY})
-  endif()
+  #endif()
   list(APPEND NATIVE_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/src/X11/")
 endif ()
 

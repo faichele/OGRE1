@@ -10,6 +10,7 @@
 # Configure Ogre RTShader System build
 
 file(GLOB HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+file(GLOB HEADER_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
 list(APPEND HEADER_FILES 
     ${PROJECT_BINARY_DIR}/include/OgreRTShaderExports.h 
     ${PROJECT_BINARY_DIR}/include/OgreRTShaderConfig.h
@@ -17,7 +18,7 @@ list(APPEND HEADER_FILES
 file(GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 get_native_precompiled_header(OgreRTShaderSystem)
-add_library(OgreRTShaderSystem ${OGRE_COMP_LIB_TYPE} ${OgreRTShaderSystem_pch} ${HEADER_FILES} ${SOURCE_FILES})
+add_library(OgreRTShaderSystem ${OGRE_COMP_LIB_TYPE} ${OgreRTShaderSystem_pch} ${HEADER_FILES} ${HEADER_SRC_FILES} ${SOURCE_FILES})
 set_target_properties(OgreRTShaderSystem PROPERTIES VERSION ${OGRE_SOVERSION} SOVERSION ${OGRE_SOVERSION})
 target_link_libraries(OgreRTShaderSystem PUBLIC OgreMain)
 target_include_directories(OgreRTShaderSystem PUBLIC 
@@ -38,3 +39,7 @@ ogre_config_component(OgreRTShaderSystem)
 install(FILES ${HEADER_FILES}
   DESTINATION include/OGRE/RTShaderSystem
 )
+install(FILES ${HEADER_SRC_FILES}
+  DESTINATION include/OGRE/RTShaderSystem
+)
+

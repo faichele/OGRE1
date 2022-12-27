@@ -66,8 +66,10 @@ MACRO(MACRO_LOG_FEATURE _var _package _description _url ) # _required _minvers _
    SET(_comments "${ARGV6}")
 
    IF (${_var})
+     message(STATUS "MACRO_LOG_FEATURE _var: ${_var}") 
      SET(_LOGFILENAME ${PROJECT_BINARY_DIR}/EnabledFeatures.txt)
    ELSE (${_var})
+     message(STATUS "MACRO_LOG_FEATURE _var not set for ${_package}")
      IF (${_required} MATCHES "[Tt][Rr][Uu][Ee]")
        SET(_LOGFILENAME ${PROJECT_BINARY_DIR}/MissingRequirements.txt)
      ELSE (${_required} MATCHES "[Tt][Rr][Uu][Ee]")

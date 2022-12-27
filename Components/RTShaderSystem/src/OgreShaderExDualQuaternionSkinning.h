@@ -46,7 +46,7 @@ namespace RTShader {
     This sub render state uses bone matrices converted to dual quaternions and adds calculations
     to transform the points and normals using their associated dual quaternions.
 */
-class DualQuaternionSkinning : public HardwareSkinningTechnique
+class _OgreRTSSExport DualQuaternionSkinning : public HardwareSkinningTechnique
 {
 // Interface.
 public:

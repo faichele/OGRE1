@@ -434,8 +434,26 @@ namespace Ogre {
         }
         else
         {
+            /*StringStream ss;
+            ss << "Technique::isTransparentSortingEnabled() " << getName() << ": " << mPasses.size() << " passes.";
+            LogManager::getSingleton().logMessage(ss.str());
+            ss.str("");*/
+
             // Base decision on the transparency of the first pass
-            return mPasses[0]->getTransparentSortingEnabled();
+            if (mPasses[0])
+            {
+                /*ss << "mPasses[0]: " << mPasses[0]->getName() << " getTransparentSortingEnabled() = " << static_cast<int>(mPasses[0]->getTransparentSortingEnabled());
+                LogManager::getSingleton().logMessage(ss.str());*/
+
+                return mPasses[0]->getTransparentSortingEnabled();
+            }
+            else
+            {
+                /*ss << "No valid passes found even if mPasses.empty() == false!";
+                LogManager::getSingleton().logWarning(ss.str());*/
+
+                return false;
+            }
         }
     }
     //-----------------------------------------------------------------------------
@@ -447,8 +465,26 @@ namespace Ogre {
         }
         else
         {
+            /*StringStream ss;
+            ss << "Technique::isTransparentSortingEnabled() " << getName() << ": " << mPasses.size() << " passes.";
+            LogManager::getSingleton().logMessage(ss.str());
+            ss.str("");*/
+
             // Base decision on the first pass
-            return mPasses[0]->getTransparentSortingForced();
+            if (mPasses[0])
+            {
+                /*ss << "mPasses[0]: " << mPasses[0]->getName() << " getTransparentSortingForced() = " << static_cast<int>(mPasses[0]->getTransparentSortingForced());
+                LogManager::getSingleton().logMessage(ss.str());*/
+
+                return mPasses[0]->getTransparentSortingForced();
+            }
+            else
+            {
+                /*ss << "No valid passes found even if mPasses.empty() == false!";
+                LogManager::getSingleton().logWarning(ss.str());*/
+
+                return false;
+            }
         }
     }
     //-----------------------------------------------------------------------------

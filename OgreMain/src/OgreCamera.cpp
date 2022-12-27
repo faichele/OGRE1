@@ -40,12 +40,12 @@ namespace Ogre {
         mAutoAspectRatio(false),
         mUseRenderingDistance(true),
         mUseMinPixelSize(false),
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         mOrientation(Quaternion::IDENTITY),
         mPosition(Vector3::ZERO),
         mAutoTrackTarget(0),
         mAutoTrackOffset(Vector3::ZERO),
-#endif
+//#endif
         mSceneLodFactor(1.0f),
         mSceneLodFactorInv(1.0f),
         mLastViewport(0),
@@ -63,10 +63,10 @@ namespace Ogre {
         mAspect = 1.33333333333333f;
         mProjType = PT_PERSPECTIVE;
 
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         mYawFixed = true; // Default to fixed yaw, like freelook since most people expect this
         mYawFixedAxis = Vector3::UNIT_Y;
-#endif
+//#endif
 
         invalidateFrustum();
         invalidateView();
@@ -111,7 +111,7 @@ namespace Ogre {
     {
         return mSceneDetail;
     }
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
     //-----------------------------------------------------------------------
     void Camera::setPosition(Real x, Real y, Real z)
     {
@@ -384,11 +384,11 @@ namespace Ogre {
     {
         return mRealOrientation;
     }
-#endif
+//#endif
     //-----------------------------------------------------------------------
     bool Camera::isViewOutOfDate(void) const
     {
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         // Overridden from Frustum to use local orientation / position offsets
         // Attached to node?
         if (mParentNode != 0)
@@ -423,10 +423,10 @@ namespace Ogre {
             mRecalcView = true;
             mRecalcWindow = true;
         }
-#else
+/*#else
         if(Frustum::isViewOutOfDate())
             mRecalcWindow = true;
-#endif
+#endif*/
 
         // Deriving reflected orientation / position
         if (mRecalcView)
@@ -522,11 +522,11 @@ namespace Ogre {
     std::ostream& operator<<( std::ostream& o, const Camera& c )
     {
         o << "Camera(Name='" << c.mName << "'";
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         o << ", pos=" << c.mPosition << ", direction=" << -c.mOrientation.zAxis();
-#else
+/*#else
         o << ", pos=" << c.mLastParentPosition << ", direction=" << -c.mLastParentOrientation.zAxis();
-#endif
+#endif*/
         o << ",near=" << c.mNearDist;
         o << ", far=" << c.mFarDist << ", FOVy=" << c.mFOVy.valueDegrees();
         o << ", aspect=" << c.mAspect << ", ";
@@ -599,52 +599,52 @@ namespace Ogre {
     const Quaternion& Camera::getRealOrientation(void) const
     {
         updateView();
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         return mRealOrientation;
-#else
+/*#else
         return mLastParentOrientation;
-#endif
+#endif*/
     }
     //-----------------------------------------------------------------------
     const Vector3& Camera::getRealPosition(void) const
     {
         updateView();
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         return mRealPosition;
-#else
+/*#else
         return mLastParentPosition;
-#endif
+#endif*/
     }
     //-----------------------------------------------------------------------
     Vector3 Camera::getRealDirection(void) const
     {
         // Direction points down -Z
         updateView();
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         return mRealOrientation * Vector3::NEGATIVE_UNIT_Z;
-#else
+/*#else
         return -mLastParentOrientation.zAxis();
-#endif
+#endif*/
     }
     //-----------------------------------------------------------------------
     Vector3 Camera::getRealUp(void) const
     {
         updateView();
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         return mRealOrientation * Vector3::UNIT_Y;
-#else
+/*#else
         return mLastParentOrientation.yAxis();
-#endif
+#endif*/
     }
     //-----------------------------------------------------------------------
     Vector3 Camera::getRealRight(void) const
     {
         updateView();
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         return mRealOrientation * Vector3::UNIT_X;
-#else
+/*#else
         return mLastParentOrientation.xAxis();
-#endif
+#endif*/
     }
     //-----------------------------------------------------------------------
     const String& Camera::getMovableType(void) const
@@ -1154,10 +1154,10 @@ namespace Ogre {
     void Camera::synchroniseBaseSettingsWith(const Camera* cam)
     {
         this->setProjectionType(cam->getProjectionType());
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         mPosition = cam->mPosition;
         mOrientation = cam->mOrientation;
-#endif
+//#endif
         invalidateView();
         this->setAspectRatio(cam->getAspectRatio());
         this->setNearClipDistance(cam->getNearClipDistance());

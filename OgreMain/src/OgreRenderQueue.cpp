@@ -82,7 +82,9 @@ namespace Ogre {
             pTech = defaultMat->getBestTechnique();
         }
         else
+        {
             pTech = pRend->getTechnique();
+        }
 
         if (mRenderableListener)
         {

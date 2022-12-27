@@ -134,7 +134,7 @@ namespace Ogre {
         /// Shared class-level name for Movable type
         static String msMovableType;
 
-#ifdef OGRE_NODELESS_POSITIONING
+//#ifdef OGRE_NODELESS_POSITIONING
         /// Real world orientation/position of the camera
         mutable Quaternion mRealOrientation;
         mutable Vector3 mRealPosition;
@@ -151,7 +151,7 @@ namespace Ogre {
         SceneNode* mAutoTrackTarget;
         /// Tracking offset for fine tuning
         Vector3 mAutoTrackOffset;
-#endif
+//#endif
         /// Scene LOD factor used to adjust overall LOD
         Real mSceneLodFactor;
         /// Inverted scene LOD factor, can be used by Renderables to adjust their LOD
@@ -229,7 +229,7 @@ namespace Ogre {
         */
         PolygonMode getPolygonMode(void) const;
 
-#ifdef OGRE_NODELESS_POSITIONING
+// #ifdef OGRE_NODELESS_POSITIONING
         /** Sets the camera's position.
         @deprecated attach to SceneNode and use SceneNode::setPosition
         */
@@ -387,7 +387,7 @@ namespace Ogre {
         const Vector3& getPositionForViewUpdate(void) const;
         /** Get the derived orientation of this frustum. */
         const Quaternion& getOrientationForViewUpdate(void) const;
-#endif
+//#endif
         /** Tells the Camera to contact the SceneManager to render from it's viewpoint.
         @param vp The viewport to render to
         */

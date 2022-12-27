@@ -26,6 +26,8 @@ THE SOFTWARE.
 */
 #include "OgreShaderPrecompiledHeaders.h"
 
+#include "OgreLogManager.h"
+
 namespace Ogre {
 
 //-----------------------------------------------------------------------
@@ -136,41 +138,55 @@ void ProgramManager::createGpuPrograms(ProgramSet* programSet)
 
     // Grab the matching writer.
     const String& language = ShaderGenerator::getSingleton().getTargetLanguage();
+    Ogre::LogManager::getSingleton().logWarning("Target language of shader generator: " + language);
 
     auto programWriter = ProgramWriterManager::getSingleton().getProgramWriter(language);
 
-    ProgramProcessorIterator itProcessor = mProgramProcessorsMap.find(language);
-    ProgramProcessor* programProcessor = NULL;
-
-    if (itProcessor == mProgramProcessorsMap.end())
+    if (programWriter != nullptr)
     {
-        OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-            "Could not find processor for language '" + language,
-            "ProgramManager::createGpuPrograms");       
-    }
+        ProgramProcessorIterator itProcessor = mProgramProcessorsMap.find(language);
+        ProgramProcessor* programProcessor = NULL;
 
-    programProcessor = itProcessor->second;
-    
-    // Call the pre creation of GPU programs method.
-    if (!programProcessor->preCreateGpuPrograms(programSet))
-        OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "preCreateGpuPrograms failed");
-    
-    // Create the shader programs
-    for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
+        if (itProcessor == mProgramProcessorsMap.end())
+        {
+            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
+                "Could not find processor for language '" + language,
+                "ProgramManager::createGpuPrograms");
+        }
+
+        programProcessor = itProcessor->second;
+
+        // Call the pre creation of GPU programs method.
+        if (!programProcessor->preCreateGpuPrograms(programSet))
+            OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "preCreateGpuPrograms failed");
+
+        // Create the shader programs
+        for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
+        {
+            Ogre::LogManager::getSingleton().logWarning("Creating shader program of type " + std::to_string(type) + " using programWriter " + programWriter->getTargetLanguage() + " and language " + language + ".");
+            auto gpuProgram = createGpuProgram(programSet->getCpuProgram(type), programWriter, language,
+                                               ShaderGenerator::getSingleton().getShaderProfiles(type),
+                                               ShaderGenerator::getSingleton().getShaderCachePath());
+            programSet->setGpuProgram(gpuProgram);
+        }
+
+        //update flags
+        programSet->getGpuProgram(GPT_VERTEX_PROGRAM)->setSkeletalAnimationIncluded(
+            programSet->getCpuProgram(GPT_VERTEX_PROGRAM)->getSkeletalAnimationIncluded());
+
+        // Call the post creation of GPU programs method.
+        if(!programProcessor->postCreateGpuPrograms(programSet))
+            OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "postCreateGpuPrograms failed");
+    }
+    else
     {
-        auto gpuProgram = createGpuProgram(programSet->getCpuProgram(type), programWriter, language,
-                                           ShaderGenerator::getSingleton().getShaderProfiles(type),
-                                           ShaderGenerator::getSingleton().getShaderCachePath());
-        programSet->setGpuProgram(gpuProgram);
+        Ogre::LogManager::getSingleton().logWarning("Could not find program writer for shader language: " + language + "!");
+        // Create the shader programs
+        for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
+        {
+            programSet->setGpuProgram(GpuProgramPtr());
+        }
     }
-
-    //update flags
-    programSet->getGpuProgram(GPT_VERTEX_PROGRAM)->setSkeletalAnimationIncluded(
-        programSet->getCpuProgram(GPT_VERTEX_PROGRAM)->getSkeletalAnimationIncluded());
-
-    // Call the post creation of GPU programs method.
-    if(!programProcessor->postCreateGpuPrograms(programSet))
-        OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "postCreateGpuPrograms failed");
 }
 
 //-----------------------------------------------------------------------------

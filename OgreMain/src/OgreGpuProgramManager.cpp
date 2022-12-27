@@ -31,6 +31,8 @@ THE SOFTWARE.
 #include "OgreUnifiedHighLevelGpuProgram.h"
 #include "OgreStreamSerialiser.h"
 
+#include "OgreLogManager.h"
+
 namespace Ogre {
 namespace {
     uint32 CACHE_CHUNK_ID = StreamSerialiser::makeIdentifier("OGPC"); // Ogre Gpu Program cache
@@ -453,18 +455,28 @@ namespace {
     //---------------------------------------------------------------------------
     GpuProgramFactory* GpuProgramManager::getFactory(const String& language)
     {
+        Ogre::LogManager::getSingleton().logWarning("GpuProgramManager::getFactory(\"" + language + "\")");
+
         FactoryMap::iterator i = mFactories.find(language);
 
         if (i == mFactories.end())
         {
             // use the null factory to create programs that will never be supported
             i = mFactories.find(sNullLang);
+            Ogre::LogManager::getSingleton().logWarning("Shader language \"" + language + "\" not found, returning 'null' shader option!");
         }
         return i->second;
     }
     //---------------------------------------------------------------------
     bool GpuProgramManager::isLanguageSupported(const String& lang) const
     {
+        Ogre::LogManager::getSingleton().logWarning("GpuProgramManager::isLanguageSupported(\"" + lang + "\")");
+        Ogre::LogManager::getSingleton().logWarning("Available shader languages: " + std::to_string(mFactories.size()));
+        for (auto it = mFactories.begin(); it != mFactories.end(); ++it)
+        {
+            Ogre::LogManager::getSingleton().logWarning(" * Shader language: " + it->first);
+        }
+
         return mFactories.find(lang) != mFactories.end();
     }
 }

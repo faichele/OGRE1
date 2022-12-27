@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "OgreShaderScriptTranslator.h"
 #include "OgreMaterialSerializer.h"
 
+#include "OgreLogManager.h"
 
 namespace Ogre {
 

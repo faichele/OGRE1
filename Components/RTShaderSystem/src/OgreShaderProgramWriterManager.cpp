@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "OgreShaderPrecompiledHeaders.h"
 
+#include "OgreLogManager.h"
+
 namespace Ogre {
 
 //-----------------------------------------------------------------------
@@ -73,6 +75,13 @@ void ProgramWriterManager::addProgramWriter(const String& lang, ProgramWriter* w
 //-----------------------------------------------------------------------
 bool ProgramWriterManager::isLanguageSupported(const String& lang)
 {
+    Ogre::LogManager::getSingleton().logWarning("ProgramWriterManager::isLanguageSupported(\"" + lang + "\")");
+    Ogre::LogManager::getSingleton().logWarning("Available shader program writers: " + mProgramWriters.size());
+    for (auto it = mProgramWriters.begin(); it != mProgramWriters.end(); ++it)
+    {
+        Ogre::LogManager::getSingleton().logWarning(" * Program writer: " + it->first);
+    }
+
     return mProgramWriters.find(lang) != mProgramWriters.end();
 }
 //-----------------------------------------------------------------------

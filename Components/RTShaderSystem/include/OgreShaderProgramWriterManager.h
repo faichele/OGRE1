@@ -30,6 +30,7 @@ THE SOFTWARE.
 
 #include "OgreShaderPrerequisites.h"
 #include "OgreSingleton.h"
+#include "OgreLogManager.h"
 
 namespace Ogre {
 namespace RTShader {
@@ -97,7 +98,10 @@ public:
         auto it = mProgramWriters.find(language);
         if (it != mProgramWriters.end())
             return it->second;
-        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No program writer for language " + language);
+
+        // OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No program writer for language " + language);
+        Ogre::LogManager::getSingleton().logWarning("No program writer for language " + language);
+
         return nullptr;
     }
 

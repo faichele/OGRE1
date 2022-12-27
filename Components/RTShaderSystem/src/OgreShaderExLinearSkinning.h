@@ -46,7 +46,7 @@ namespace RTShader {
 Meaning, this sub render states adds calculations which multiply
 the points and normals by their assigned bone matricies.
 */
-class LinearSkinning : public HardwareSkinningTechnique
+class _OgreRTSSExport LinearSkinning : public HardwareSkinningTechnique
 {
 // Interface.
 public:
